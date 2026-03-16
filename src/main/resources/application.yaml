@@ -1,14 +1,20 @@
 spring:
   application:
     name: chatDemo
+
   ai:
     vectorstore:
-      pgvector: 768
-      initializa-schema: true
-    ollama:
-      embedding:
-        model: nomic-embed-text #размер 768
-        base-url: http://localhost:11434
-        chat:
-          model: gemma3:1b
+      pgvector:
+        dimensions: 768
+        initialize-schema: true
 
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: gemma3:1b
+      embedding:
+        model: nomic-embed-text
+
+app:
+  pdf:
+    path: src/main/resources/files/example.pdf

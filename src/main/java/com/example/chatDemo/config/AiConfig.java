@@ -4,9 +4,9 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
-import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.ollama.OllamaChatModel;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,11 +21,12 @@ public class AiConfig {
     }
 
     @Bean
-    public ChatClient chatClient(OllamaChatModel chatModel, ChatMemory chatMemory) {
+    public ChatClient chatClient(OllamaChatModel chatModel, ChatMemory chatMemory, VectorStore vectorStore) {
         return ChatClient.builder(chatModel)
                 .defaultSystem("Ты полезный AI-ассистент.")
                 .defaultAdvisors(
-                        MessageChatMemoryAdvisor.builder(chatMemory).build()
+                        MessageChatMemoryAdvisor.builder(chatMemory).build(),
+                        QuestionAnswerAdvisor.builder(vectorStore).build()
                 )
                 .build();
     }
