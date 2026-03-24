@@ -21,18 +21,25 @@ public class DocService implements CommandLineRunner {
 
     @Override
     public void run(String... args){
-        if (resource == null || !resource.exists()) {
-            return;
-        }
-        TikaDocumentReader reader = new TikaDocumentReader(resource);
-        TextSplitter textSplitter = TokenTextSplitter.builder()
-                .withChunkSize(150)
-                .withMinChunkSizeChars(30)
-                .withMinChunkLengthToEmbed(5)
-                .withMaxNumChunks(2000)
-                .withKeepSeparator(true)
-                .build();
-        vectorStore.accept(textSplitter.apply(reader.get()));
+        try {
+            if (resource == null || !resource.exists()) {
+                return;
+            }
 
+            TikaDocumentReader reader = new TikaDocumentReader(resource);
+
+            TextSplitter textSplitter = TokenTextSplitter.builder()
+                    .withChunkSize(150)
+                    .withMinChunkSizeChars(30)
+                    .withMinChunkLengthToEmbed(5)
+                    .withMaxNumChunks(2000)
+                    .withKeepSeparator(true)
+                    .build();
+
+            vectorStore.accept(textSplitter.apply(reader.get()));
+
+        } catch (Exception e) {
+            System.err.println("Document loading error: " + e.getMessage());
+        }
     }
 }
