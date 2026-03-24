@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DocService implements CommandLineRunner {
     private final VectorStore vectorStore;
-    @Value("classpath:/files/example.pdf")
+    @Value("${app.rag.document-path:}")
     private  Resource resource;
 
     public DocService(VectorStore vectorStore){
@@ -20,7 +20,10 @@ public class DocService implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception{
+    public void run(String... args){
+        if (resource == null || !resource.exists()) {
+            return;
+        }
         TikaDocumentReader reader = new TikaDocumentReader(resource);
         TextSplitter textSplitter = TokenTextSplitter.builder()
                 .withChunkSize(150)

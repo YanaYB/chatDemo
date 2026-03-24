@@ -23,7 +23,7 @@ public class AiConfig {
     @Bean
     public ChatClient chatClient(OllamaChatModel chatModel, ChatMemory chatMemory, VectorStore vectorStore) {
         return ChatClient.builder(chatModel)
-                .defaultSystem("Ты полезный AI-ассистент.")
+                .defaultSystem("You are useful ai assistant")
                 .defaultAdvisors(
                         MessageChatMemoryAdvisor.builder(chatMemory).build(),
                         QuestionAnswerAdvisor.builder(vectorStore).build()

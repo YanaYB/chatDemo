@@ -15,3 +15,6 @@ spring:
       chat:
         model: gemma3:1b
 
+app:
+  rag:
+    document-path: classpath:/files/example.pdf
