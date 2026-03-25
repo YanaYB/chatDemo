@@ -29,9 +29,9 @@ public class DocService implements CommandLineRunner {
             TikaDocumentReader reader = new TikaDocumentReader(resource);
 
             TextSplitter textSplitter = TokenTextSplitter.builder()
-                    .withChunkSize(150)
+                    .withChunkSize(200)
                     .withMinChunkSizeChars(30)
-                    .withMinChunkLengthToEmbed(5)
+                    .withMinChunkLengthToEmbed(10)
                     .withMaxNumChunks(2000)
                     .withKeepSeparator(true)
                     .build();
